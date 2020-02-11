@@ -1,11 +1,14 @@
 import json
 import os
+import csv
 import lxml,bs4
 from bs4 import BeautifulSoup as bs
+from time import gmtime, strftime
+
 class Xml_Parser:
     def Json_parser(self):
         n = int(input("enter a n value:"))
-        d = {'location':input()}
+        d = {'location':input("Enter location")}
         global json_
         for i in range(n):
             keys = input()
@@ -23,7 +26,21 @@ class Xml_Parser:
                     xml_files.append(os.path.join(r, file))
         Xml_Parser.Search_xml(self,xml_files)
     def Search_xml(self,xml_files):
-        print('1')
+        today = strftime("%Y-%m-%d %H-%M-%S", gmtime())
+        fileName = str("GRL_XML_REPORT_" + str(today)) + ".csv"
+        filepath = "/home/jeevanantham/PycharmProjects/GRL_10_2_2020/GRL_REPORT_CSV/"+fileName
+        fout = open(filepath, "w")
+        for i in json_:
+            data = [i, json_[i]]
+            print(data)
+            with open(filepath, 'a', newline="") as csvfile:
+                csvwriter = csv.writer(csvfile)
+                csvwriter.writerows([data])
+
+        with open(filepath, 'a', newline="") as csvfile:
+            csvwriter = csv.writer(csvfile)
+            csvwriter.writerows([["LIST_OF_FILES_FOUND"]])
+
         for file_path in xml_files:
             xml_content = []
             with open(file_path, "r") as file:
@@ -49,6 +66,9 @@ class Xml_Parser:
                     if file_path[j-1] == '/':
                         break
                 print(concat[::-1])
+                with open(filepath, 'a', newline="") as csvfile:
+                    csvwriter = csv.writer(csvfile)
+                    csvwriter.writerows([[concat]])
 
 obj1 = Xml_Parser()
 obj1.Json_parser()
