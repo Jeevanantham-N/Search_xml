@@ -7,15 +7,10 @@ from time import gmtime, strftime
 
 class Xml_Parser:
     def Json_parser(self):
-        n = int(input("enter a n value:"))
-        d = {'location':input("Enter location")}
+        json_location = '/home/jeevanantham/PycharmProjects/GRL_10_2_2020/work_with_json.json'
         global json_
-        for i in range(n):
-            keys = input()
-            values = input()
-            d[keys] = values
-        json_ = json.dumps(d)
-        json_ = json.loads(json_)
+        with open(json_location, 'r', errors='replace') as file:
+            json_ = json.load(file)
         Xml_Parser.Get_xml(self)
     def Get_xml(self):
         path = json_['location']
@@ -70,5 +65,9 @@ class Xml_Parser:
                     csvwriter = csv.writer(csvfile)
                     csvwriter.writerows([[concat]])
 
-obj1 = Xml_Parser()
-obj1.Json_parser()
+def main():
+    obj1 = Xml_Parser()
+    obj1.Json_parser()
+
+if __name__ == '__main__':
+    main()
